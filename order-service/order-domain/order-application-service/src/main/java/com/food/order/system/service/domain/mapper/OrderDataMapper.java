@@ -9,9 +9,11 @@ import com.food.order.system.order.service.domain.entity.OrderItem;
 import com.food.order.system.order.service.domain.entity.Product;
 import com.food.order.system.order.service.domain.entity.Restaurant;
 import com.food.order.system.order.service.domain.valueobject.StreetAddress;
+import com.food.order.system.order.service.domain.valueobject.TrackingId;
 import com.food.order.system.service.domain.dto.create.CreateOrderCommand;
 import com.food.order.system.service.domain.dto.create.CreateOrderResponse;
 import com.food.order.system.service.domain.dto.create.OrderAddress;
+import com.food.order.system.service.domain.dto.track.TrackOrderResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,6 +45,14 @@ public class OrderDataMapper {
         return CreateOrderResponse.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
+                .build();
+    }
+
+    public TrackOrderResponse orderToTrackOrderResponse(Order order) {
+        return TrackOrderResponse.builder()
+                .orderTrackingId(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
                 .build();
     }
 
