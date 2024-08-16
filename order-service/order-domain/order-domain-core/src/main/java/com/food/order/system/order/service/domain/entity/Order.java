@@ -25,6 +25,10 @@ public class Order extends AggregateRoot<OrderId> {
     private OrderStatus orderStatus;
     private List<String> failureMessages;
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public void validateOrder() {
         validateInitialOrder();
         validateTotalPrice();
