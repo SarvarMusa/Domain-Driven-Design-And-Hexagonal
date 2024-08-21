@@ -21,6 +21,8 @@ public class Order extends AggregateRoot<OrderId> {
     /* these 3 fields are not final because i will set them during business logic
      *  after creating the Order entity
      *  */
+
+    public static final String FAILURE_MESSAGE_DELIMITER = ",";
     private TrackingId trackingId;
     private OrderStatus orderStatus;
     private List<String> failureMessages;
