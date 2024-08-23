@@ -7,6 +7,7 @@
         <module>order-service</module>
         <module>common</module>
         <module>infrastructure</module>
+        <module>customer-service</module>
     </modules>
 
     <parent>
@@ -93,7 +94,6 @@
                 <artifactId>kafka-config-data</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
