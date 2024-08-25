@@ -1,5 +1,6 @@
 package com.food.order.system.order.service.messaging.publisher.kafka;
 
+import com.food.order.system.kafka.producer.KafkaMessageHelper;
 import com.food.order.system.kafka.producer.service.KafkaProducer;
 import com.food.order.system.order.service.domain.event.OrderPaidEvent;
 import com.food.order.system.kafka.order.avro.model.*;
@@ -16,16 +17,16 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer;
-    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
 
     public PayOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingDataMapper,
                                          OrderServiceConfigData orderServiceConfigData,
                                          KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer,
-                                         OrderKafkaMessageHelper orderKafkaMessageHelper) {
+                                         KafkaMessageHelper kafkaMessageHelper) {
         this.orderMessagingDataMapper = orderMessagingDataMapper;
         this.orderServiceConfigData = orderServiceConfigData;
         this.kafkaProducer = kafkaProducer;
-        this.orderKafkaMessageHelper = orderKafkaMessageHelper;
+        this.kafkaMessageHelper = kafkaMessageHelper;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
                     orderServiceConfigData.getRestaurantApprovalTopicName(),
                     orderId,
                     requestAvroModel,
-                    orderKafkaMessageHelper.getKafkaCallBack(
+                    kafkaMessageHelper.getKafkaCallBack(
                             orderServiceConfigData.getRestaurantApprovalTopicName(),
                             requestAvroModel,
                             orderId,

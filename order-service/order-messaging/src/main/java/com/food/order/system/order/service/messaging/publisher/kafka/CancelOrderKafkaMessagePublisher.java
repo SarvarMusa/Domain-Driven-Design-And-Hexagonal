@@ -1,16 +1,14 @@
 package com.food.order.system.order.service.messaging.publisher.kafka;
 
 import com.food.order.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.food.order.system.kafka.producer.KafkaMessageHelper;
 import com.food.order.system.kafka.producer.service.KafkaProducer;
 import com.food.order.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.order.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import com.food.order.system.service.domain.config.OrderServiceConfigData;
 import com.food.order.system.service.domain.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Slf4j
 @Component
@@ -19,15 +17,15 @@ public class CancelOrderKafkaMessagePublisher implements OrderCancelledPaymentRe
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
-    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
 
     public CancelOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingDataMapper,
                                             OrderServiceConfigData orderServiceConfigData,
-                                            KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer, OrderKafkaMessageHelper orderKafkaMessageHelper) {
+                                            KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer, KafkaMessageHelper kafkaMessageHelper) {
         this.orderMessagingDataMapper = orderMessagingDataMapper;
         this.orderServiceConfigData = orderServiceConfigData;
         this.kafkaProducer = kafkaProducer;
-        this.orderKafkaMessageHelper = orderKafkaMessageHelper;
+        this.kafkaMessageHelper = kafkaMessageHelper;
     }
 
     @Override
@@ -42,7 +40,7 @@ public class CancelOrderKafkaMessagePublisher implements OrderCancelledPaymentRe
                     orderServiceConfigData.getPaymentRequestTopicName(),
                     orderId,
                     paymentRequestAvroModel,
-                    orderKafkaMessageHelper.getKafkaCallBack(
+                    kafkaMessageHelper.getKafkaCallBack(
                             orderServiceConfigData.getPaymentResponseTopicName(),
                             paymentRequestAvroModel,
                             orderId,
