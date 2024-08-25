@@ -13,6 +13,4 @@ public interface OrderApplicationService {
     CreateOrderResponse createOrder(@Valid CreateOrderCommand command);
 
     TrackOrderResponse trackOrder(@Valid TrackOrderQuery query);
-
-
 }
