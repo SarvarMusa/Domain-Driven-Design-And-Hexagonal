@@ -10,10 +10,4 @@ This project demonstrates the implementation of Domain-Driven Design (DDD) and H
 - PostgreSQL 13
 - Docker 20.10.7
 
-## Prerequisites
-Ensure you have the following installed:
-- Java Development Kit (JDK) 17
-- Docker 20.10.7 or later
 
-## Setup and Installation
-1. Clone the repository:
