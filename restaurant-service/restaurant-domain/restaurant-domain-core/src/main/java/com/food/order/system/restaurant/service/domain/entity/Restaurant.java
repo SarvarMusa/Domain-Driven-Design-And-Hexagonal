@@ -15,10 +15,9 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     private boolean active;
     private final OrderDetail orderDetail;
 
-    public Restaurant(OrderApproval orderApproval) {
-        this.orderApproval = orderApproval;
+    public Restaurant(OrderDetail orderDetail) {
+        this.orderDetail = orderDetail;
     }
-
 
     public void validateOrder(List<String> failureMessages) {
         if (orderDetail.getOrderStatus() != OrderStatus.PAID) {
@@ -50,5 +49,13 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public OrderDetail getOrderDetail() {
+        return orderDetail;
+    }
+
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
     }
 }
