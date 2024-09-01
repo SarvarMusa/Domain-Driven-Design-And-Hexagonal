@@ -35,7 +35,8 @@ public class OrderCreateHelper {
                              OrderRepository orderRepository,
                              CustomerRepository customerRepository,
                              RestaurantRepository restaurantRepository,
-                             OrderDataMapper orderDataMapper, OrderCreatedPaymentRequestMassagePublisher orderCreatedPaymentRequestMassagePublisher) {
+                             OrderDataMapper orderDataMapper,
+                             OrderCreatedPaymentRequestMassagePublisher orderCreatedPaymentRequestMassagePublisher) {
         this.orderDomainService = orderDomainService;
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
@@ -49,7 +50,8 @@ public class OrderCreateHelper {
         checkCustomer(command.getCustomerId());
         Restaurant restaurant = checkRestaurant(command);
         Order order = orderDataMapper.createOrderCommandToOrder(command);
-        OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant, orderCreatedPaymentRequestMassagePublisher);
+        OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant,
+                orderCreatedPaymentRequestMassagePublisher);
         saveOrder(order);
         log.info("Order is created with id:{}", orderCreatedEvent.getOrder().getId().getValue());
         return orderCreatedEvent;
