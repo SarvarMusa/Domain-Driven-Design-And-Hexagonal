@@ -16,39 +16,23 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-
     @ResponseBody
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDTO handleException(Exception exception) {
-        log.error(exception.getMessage(), exception);
-        return ErrorDTO.builder()
-                .code(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .message("Unexpected Error!")
-                .build();
+        return buildErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected Error!", exception);
     }
 
     @ResponseBody
     @ExceptionHandler(value = {ValidationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleException(ValidationException exception) {
-        ErrorDTO errorDTO;
         if (exception instanceof ConstraintViolationException) {
             String violations = extractViolationsFromException((ConstraintViolationException) exception);
-            log.error(violations);
-            errorDTO = ErrorDTO.builder()
-                    .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                    .message(violations)
-                    .build();
+            return buildErrorDTO(HttpStatus.BAD_REQUEST, violations, null);
         } else {
-            String exceptionMessage = exception.getMessage();
-            log.error(exceptionMessage, exception);
-            errorDTO = ErrorDTO.builder()
-                    .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                    .message(exceptionMessage)
-                    .build();
+            return buildErrorDTO(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
         }
-        return errorDTO;
     }
 
     private String extractViolationsFromException(ConstraintViolationException exception) {
@@ -58,5 +42,15 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining("--"));
     }
 
-
+    private ErrorDTO buildErrorDTO(HttpStatus status, String message, Exception exception) {
+        if (exception != null) {
+            log.error(message, exception);
+        } else {
+            log.error(message);
+        }
+        return ErrorDTO.builder()
+                .code(status.getReasonPhrase())
+                .message(message)
+                .build();
+    }
 }
