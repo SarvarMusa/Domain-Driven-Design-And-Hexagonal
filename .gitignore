@@ -1,29 +1,41 @@
 # Created by .ignore support plugin
-#.gitignore for java
+# Java
 *.class
-
-# Package Files #
 *.jar
 *.war
 *.ear
-*.ids
-**/target/
+*.nar
+*.zip
+*.tar.gz
+*.rar
 
-# logs
+# Build output
+**/target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.properties
+mvnw
+mvnw.cmd
+
+# Logs
 /stacktrace.log
 /test/reports
 /logs
 *.log
 *.log.*
 
-## .gitignore for intellij
+# IDE - IntelliJ IDEA
 *.iml
 *.ipr
 *.iws
 *.ids
 .idea/
+out/
 
-## .gitignore for eclipse
+# IDE - Eclipse
 *.pydevproject
 .project
 .metadata
@@ -38,5 +50,25 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+# IDE - VS Code
+.vscode/
+!.vscode/extensions.json
+
+# OS Files
 **/.DS_Store
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment & Secrets
+.env
+!.env.example
+*.env
+!*.env.example
+application-secrets.yml
+application-local.yml
+secrets/
+
+# Docker
+docker-compose.override.yml
